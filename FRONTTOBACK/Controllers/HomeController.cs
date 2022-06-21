@@ -18,13 +18,13 @@ namespace FRONTTOBACK.Controllers
         }
         public IActionResult Index()
         {
-            //test edirem giti
+         
 
             HomeVM homeVm = new HomeVM();
             homeVm.Slider = _context.Slider.ToList();
             homeVm.SliderContent = _context.SliderContent.FirstOrDefault();
             homeVm.Categories = _context.Categories.ToList();
-            homeVm.Products = _context.Products.Include(p=>p.Category).ToList();
+            homeVm.Products = _context.Products.Take(8).Include(p=>p.Category).ToList();
             return View(homeVm);
             
         }

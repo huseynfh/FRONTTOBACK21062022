@@ -14,6 +14,25 @@ $(document).ready(function () {
         $('.mobile-navbar').addClass("active");
 
     })
+    //LOADMORE
+    let skip = 4;
+    $(document).on('click', '#loadMore', function () {     
+        let productList = $("#productList");
+        let productCount = $("#productCount").val();
+        $.ajax({
+            url: "/product/loadMore?skip="+skip,
+            method: "get",
+            success: function (res) {
+                productList.append(res);
+                skip += 4;
+                if (skip>=productCount) {
+                    $("#loadMore").remove();
+                }
+            }
+        })
+
+    })
+
 
     $(document).on('click', '.mobile-navbar ul li a', function () {
         if ($(this).children('i').hasClass('fa-caret-right')) {
