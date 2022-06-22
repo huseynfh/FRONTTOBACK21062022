@@ -32,6 +32,21 @@ $(document).ready(function () {
         })
 
     })
+    // search
+    $(document).on('keyup', '#input-search', function () {
+        let inputvalue = $(this).val();
+        $("#searchlist li ").slice(1).remove();
+        $.ajax({
+            url: "/home/searchproduct?search=" + inputvalue,
+            method: "get",
+            success: function (res) {
+                $("#searchlist").append(res);
+            }
+        })
+
+    }
+
+   
 
 
     $(document).on('click', '.mobile-navbar ul li a', function () {
