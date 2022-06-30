@@ -28,17 +28,17 @@ namespace FRONTTOBACK.Controllers
             return View(homeVm);
 
         }
-        public IActionResult Detail(int? id, string name)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            Product dbProduct = _context.Products.FirstOrDefault(p => p.Id == id);
-            if (dbProduct == null) return NotFound();
+        //public IActionResult Detail(int? id, string name)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    Product dbProduct = _context.Products.FirstOrDefault(p => p.Id == id);
+        //    if (dbProduct == null) return NotFound();
 
-            return View(dbProduct);
-        }
+        //    return View(dbProduct);
+        //}
 
        public IActionResult SearchProduct(string search)
         {

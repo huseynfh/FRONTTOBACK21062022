@@ -38,6 +38,8 @@ namespace FRONTTOBACK
                 option.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
                 //@"Server=DESKTOP-GMDAVRP;Database=FRONTTOBACK;Trusted_Connection=True;MultipleActiveResultSets=true"
             });
+            services.AddSession(option =>
+            option.IdleTimeout = TimeSpan.FromMinutes(2));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +52,8 @@ namespace FRONTTOBACK
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
