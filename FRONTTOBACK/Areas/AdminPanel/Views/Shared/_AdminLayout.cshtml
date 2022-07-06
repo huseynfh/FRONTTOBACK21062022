@@ -177,6 +177,12 @@
               <span class="menu-title">Category</span>
             </a>
           </li>
+            <li class="nav-item">
+            <a class="nav-link" asp-controller="product" asp-action="index">
+              <i class="mdi mdi-home menu-icon"></i>
+              <span class="menu-title">Products</span>
+            </a>
+          </li>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
@@ -275,9 +281,10 @@
   <script src="~/admin/js/dashboard.js"></script>
   <script src="~/admin/js/data-table.js"></script>
   <script src="~/admin/js/jquery.dataTables.js"></script>
+ 
   <script src="~/admin/js/dataTables.bootstrap4.js"></script>
   <!-- End custom js for this page-->
-    @RenderSection("Scripts",false);
+   @RenderSection("Scripts",false);
 </body>
 
 </html>

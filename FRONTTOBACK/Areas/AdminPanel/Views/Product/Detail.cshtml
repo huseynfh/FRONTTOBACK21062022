@@ -1,0 +1,27 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+       <div class="col-md-6 d-flex align-items-stretch">
+              <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">@Model.Name</h4>
+                       <div> <img width="200" src="~/@Model.ImageUrl"/></div>
+                      <p>
+                       @Model.Category.Name
+                      </p>
+                      <a class="btn btn-inverse-danger" asp-action="index"> Go Back</a>
+                    </div>
+                  </div>
+                </div>
+              
+              </div>
+            </div>
+</div>
+
+
