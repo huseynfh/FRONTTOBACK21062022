@@ -1,5 +1,6 @@
 ﻿using FRONTTOBACK.DAL;
 using FRONTTOBACK.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace FRONTTOBACK.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
+    [Authorize]
     public class CategoryController : Controller
     {
 
@@ -24,6 +26,8 @@ namespace FRONTTOBACK.Areas.AdminPanel.Controllers
             List<Category> categories = _context.Categories.ToList();
             return View(categories);
         }
+
+        [AllowAnonymous]
         public IActionResult Create()
         {
 

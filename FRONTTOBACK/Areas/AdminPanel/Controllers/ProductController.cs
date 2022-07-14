@@ -1,11 +1,13 @@
 ﻿using FRONTTOBACK.DAL;
 using FRONTTOBACK.Extentions;
 using FRONTTOBACK.Model;
+using FRONTTOBACK.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,10 +26,19 @@ namespace FRONTTOBACK.Areas.AdminPanel.Controllers
             _context = context;
             _env = env;
         }
-        public IActionResult Index()
+        public IActionResult Index(int page=1 , int take=5)
         {
-            return View(_context.Products.Include(p => p.Category).ToList());
+            List<Product> products = _context.Products.Include(p => p.Category).Skip((page-1)*take).Take(take).ToList();
 
+            PaginationVM<Product> paginationVM = new PaginationVM<Product>(products,PageCount(take),page);
+
+            return View(paginationVM);
+        }
+
+        private int PageCount(int take)
+        {
+            List<Product> products = _context.Products.ToList();
+            return (int)Math.Ceiling((decimal)products.Count()/take);
         }
 
 
@@ -155,7 +166,10 @@ namespace FRONTTOBACK.Areas.AdminPanel.Controllers
             }
             else
             {
-                Product dbProductName = await _context.Products.FirstOrDefaultAsync(p => p.Name.Trim().ToLower() == product.Name.Trim().ToLower());
+                Product dbProductName = await _context.Products.FirstOrDefaultAsync(p => p.Name.Trim().ToLower()
+                == product.Name.Trim().ToLower());
+
+
                 if (dbProductName != null)
                 {
                     if (dbProduct.Name.Trim().ToLower() != dbProductName.Name.Trim().ToLower())
@@ -182,8 +196,8 @@ namespace FRONTTOBACK.Areas.AdminPanel.Controllers
                         return View();
                     }
                     string oldPhoto = dbProduct.ImageUrl;
-                    string path = Path.Combine(_env.WebRootPath, "", oldPhoto);
-                    dbProduct.ImageUrl = product.Photo.SaveImage(_env, "");
+                    string path = Path.Combine(_env.WebRootPath, "", oldPhoto);//img
+                    dbProduct.ImageUrl = product.Photo.SaveImage(_env, "");//img
                     Helpers.Helper.DeleteImage(path);
                 }
 
@@ -194,7 +208,6 @@ namespace FRONTTOBACK.Areas.AdminPanel.Controllers
                 await _context.SaveChangesAsync();
 
             }
-
             return RedirectToAction("Index"); 
         }
     }

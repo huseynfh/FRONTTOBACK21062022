@@ -11,7 +11,7 @@ namespace FRONTTOBACK.Model
         [Required (ErrorMessage = "bos olmaz"), MinLength(5, ErrorMessage = "en az 5 simvol")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "bos olmaz"), MinLength(10, ErrorMessage = "en az 10 simvol")]
+        [Required(ErrorMessage = "bos olmaz"), MaxLength(2000, ErrorMessage = "en az 10 simvol")]
         public string Desc { get; set; }
 
   
