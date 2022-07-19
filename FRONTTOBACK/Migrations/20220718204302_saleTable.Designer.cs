@@ -4,14 +4,16 @@ using FRONTTOBACK.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FRONTTOBACK.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220718204302_saleTable")]
+    partial class saleTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,14 +200,17 @@ namespace FRONTTOBACK.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SaleId")
+                    b.Property<int?>("SaleId")
                         .HasColumnType("int");
+
+                    b.Property<int>("SalesId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("price")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -414,10 +419,8 @@ namespace FRONTTOBACK.Migrations
                         .IsRequired();
 
                     b.HasOne("FRONTTOBACK.Model.Sale", "Sale")
-                        .WithMany("SalesProducts")
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("SaleId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -16,6 +16,8 @@ namespace FRONTTOBACK.DAL
       public DbSet<Category> Categories{ get; set; }
       public DbSet<Product> Products { get; set; }
       public DbSet<Bio> Bios { get; set; }
+      public DbSet<Sale> Sales { get; set; }
+      public DbSet<SalesProduct> SalesProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

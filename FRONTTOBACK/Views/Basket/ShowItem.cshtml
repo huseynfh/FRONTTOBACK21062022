@@ -1,16 +1,32 @@
 ﻿@model List<BasketVM>
 @{
     ViewData["Title"] = "ShowItem";
-
     int count = 0;
+   // double total = 0;
 }
 
 <div class="container">
+    
+    @if (TempData["succsess"] != null)
+    {
+       <div  class="alert alert-success sale" >
+           @TempData["succsess"]
+       </div>
+    }
+
+    @if (TempData["fail"] != null)
+    {
+       <div  class="alert alert-danger sale">
+           @TempData["fail"]
+       </div>
+    }
+
+
     <div class="row">
    @if (Model.Count() > 0)
   {
      
-         <table class="table">
+         <table  class="table">
   <thead>
     <tr>
       <th scope="col">No</th>
@@ -23,6 +39,7 @@
   <tbody>
    @foreach (var item in Model)
                 {
+                    //total = total + (item.Price * item.ProductCount) ;
                     count++;
                     <tr>
       <th scope="row">@count</th>
@@ -44,5 +61,29 @@
             <a asp-controller="home" asp-action="index" > Go to home page  </a>    
         }
     </div>
+
+    <div class="row">
+
+        @Model.Sum(p => p.Price * p.ProductCount);
+
+        <form asp-action="sale" method="post">
+
+            <button class="btn btn-outline-secondary"> Sale </button>
+
+
+
+        </form>
+    </div>
+
+
 </div>
 
+      @section Scripts{
+          <script>
+              setTimeout(function(){
+                  document.querySelectorAll(".sale").forEach(item => {
+                      item.remove();
+                  })  ;
+              },50000)
+          </script>
+      }

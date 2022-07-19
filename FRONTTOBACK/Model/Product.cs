@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,5 +26,7 @@ namespace FRONTTOBACK.Model
         public Category Category { get; set; }
 
         public int Count { get; set; }
+
+        public List<SalesProduct> Salesproducts { get; set; }
     }
 }
