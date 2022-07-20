@@ -156,11 +156,12 @@ namespace FRONTTOBACK.Controllers
         }
 
 
+
+
+
         public IActionResult Minus(int? id)
         {
             if (id == null) return NotFound();
-
-
             string basket = Request.Cookies["basket"];
             List<BasketVM> products;
             products = JsonConvert.DeserializeObject<List<BasketVM>>(basket);
@@ -178,6 +179,8 @@ namespace FRONTTOBACK.Controllers
 
             return RedirectToAction("showitem", "basket");
         }
+
+
         public IActionResult Plus(int? id)
         {
             if (id == null) return NotFound();
@@ -194,6 +197,8 @@ namespace FRONTTOBACK.Controllers
 
             return RedirectToAction("showitem", "basket");
         }
+
+
         public IActionResult Remove(int? id)
         {
             if (id == null) return NotFound();
