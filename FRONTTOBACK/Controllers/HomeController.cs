@@ -1,5 +1,6 @@
 ﻿using FRONTTOBACK.DAL;
 using FRONTTOBACK.Model;
+using FRONTTOBACK.Services;
 using FRONTTOBACK.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,19 +13,21 @@ namespace FRONTTOBACK.Controllers
     {
         private readonly AppDbContext _context;
 
-        public HomeController(AppDbContext context)
+        private readonly ISum _sum;
+
+        public HomeController(AppDbContext context,ISum sum)
         {
             _context = context;
+            _sum = sum; 
         }
         public IActionResult Index()
         {
-
-
             HomeVM homeVm = new HomeVM();
             homeVm.Slider = _context.Slider.ToList();
             homeVm.SliderContent = _context.SliderContent.FirstOrDefault();
             homeVm.Categories = _context.Categories.ToList();
             homeVm.Products = _context.Products.Take(8).Include(p => p.Category).ToList();
+            int result = _sum.Sum(4,5);
             return View(homeVm);
 
         }

@@ -1,89 +1,87 @@
 ﻿@model List<BasketVM>
 @{
     ViewData["Title"] = "ShowItem";
-    int count = 0;
-   // double total = 0;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 0;    
 }
 
 <div class="container">
     
-    @if (TempData["succsess"] != null)
-    {
-       <div  class="alert alert-success sale" >
-           @TempData["succsess"]
-       </div>
-    }
-
-    @if (TempData["fail"] != null)
-    {
-       <div  class="alert alert-danger sale">
-           @TempData["fail"]
-       </div>
-    }
-
-
+        @if (TempData["success"]!=null)
+        {
+            <div class="alert-success sale">
+             @TempData["success"]             
+             </div>
+        }   
+        @if (TempData["fail"]!=null)
+        {
+            <div class="alert-danger sale">
+             @TempData["fail"]             
+             </div>
+        }
+    
     <div class="row">
-   @if (Model.Count() > 0)
-  {
-     
-         <table  class="table">
+        @if (Model.Count > 0)
+        {
+              <table class="table">
   <thead>
     <tr>
       <th scope="col">No</th>
       <th scope="col">Image</th>
       <th scope="col">Name</th>
       <th scope="col">Price</th>
-       <th scope="col">Quantity</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Count</th>
+
     </tr>
   </thead>
   <tbody>
-   @foreach (var item in Model)
-                {
-                    //total = total + (item.Price * item.ProductCount) ;
-                    count++;
-                    <tr>
-      <th scope="row">@count</th>
-      <td> <img width="50" src="~/img/@item.ImageUrl " /></td>
-      <td>@item.Name</td>
-     <td>@item.Price</td>
-      <td>@(item.Price * item.ProductCount) </td>
-     <td>@item.ProductCount</td>
-    </tr>
-   }
+      @foreach (var item in Model)
+     {
+         count++;
+         <tr>
+             <th scope="row">@count</th>
+             <td><img width="50px" src="~/img/@item.ImageUrl" /></td>
+              <td>@item.Name</td>
+              <td>@item.Price</td>
+              <td>@(item.Price*item.ProductCount)</td>
+              <td> <a asp-controller="basket" asp-action="minus" asp-route-id="@item.Id">-</a>
+                  @item.ProductCount
+                  <a asp-controller="basket" asp-action="plus" asp-route-id="@item.Id">+</a>
+                  </td>
+                  <td > 
+                      <a asp-controller="basket" asp-action="remove" asp-route-id="@item.Id">X</a>
+                  </td>
+         </tr>
+     }
   
-   
+    
   </tbody>
-</table>  
-
-  }
-  else
-        {
-            <a asp-controller="home" asp-action="index" > Go to home page  </a>    
+</table>
+         }
+        else{
+            <a asp-controller="home" asp-action="index">Go to home</a><br />
         }
     </div>
-
+    <br />
     <div class="row">
-
-        @Model.Sum(p => p.Price * p.ProductCount);
-
-        <form asp-action="sale" method="post">
-
-            <button class="btn btn-outline-secondary"> Sale </button>
-
-
-
+        @Model.Sum(p=>p.Price*p.ProductCount)
+        <form method="post">
+            <button type="submit" class="btn btn-success">
+                sale
+            </button>
         </form>
     </div>
-
-
 </div>
 
-      @section Scripts{
-          <script>
-              setTimeout(function(){
-                  document.querySelectorAll(".sale").forEach(item => {
-                      item.remove();
-                  })  ;
-              },50000)
-          </script>
-      }
+@section Scripts{
+    <script>
+        setTimeout(function()
+        {
+            document.querySelectorAll("sale").forEach(item => 
+            {
+                item.remove();
+                });
+         }, 5000)
+    </script>
+}

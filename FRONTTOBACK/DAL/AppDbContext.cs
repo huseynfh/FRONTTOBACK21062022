@@ -19,9 +19,36 @@ namespace FRONTTOBACK.DAL
       public DbSet<Sale> Sales { get; set; }
       public DbSet<SalesProduct> SalesProducts { get; set; }
 
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Slider>().HasData(
+                new Slider
+                {
+                    Id = 1,
+                    ImageUrl = "h3-slider-background.jpg",
+                   
+                },
+
+                 new Slider
+                 {
+                     Id = 2,
+                     ImageUrl = "h3-slider-background-2.jpg",
+
+                 },
+
+                  new Slider
+                  {
+                      Id = 3,
+                      ImageUrl = "h3-slider-background-3.jpg",
+
+                  }
+
+          );
+
         }
 
 

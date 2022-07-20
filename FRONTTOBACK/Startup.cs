@@ -1,5 +1,6 @@
 using FRONTTOBACK.DAL;
 using FRONTTOBACK.Model;
+using FRONTTOBACK.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +35,17 @@ namespace FRONTTOBACK
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //scope // her Requestde 1 obyekt
+            //transient // her Muracietde 1 obyekt
+            //singilton // Layihiye boyu  1 obyekt
+
+            services.AddScoped<ISum,SumService>();
+
+
+
+
+
+
             services.AddControllersWithViews();
             services.AddDbContext<AppDbContext>(option =>
             {

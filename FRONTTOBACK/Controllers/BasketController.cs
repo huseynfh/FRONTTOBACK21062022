@@ -129,13 +129,13 @@ namespace FRONTTOBACK.Controllers
                         TempData["fail"] = "Sale is fail";
                         return RedirectToAction("Showitem");
                     }
-
                   
                     SalesProduct salesProduct = new SalesProduct();
                     salesProduct.ProductId = dbProduct.Id;
                     salesProduct.Count = basketProduct.ProductCount;                 
                     salesProduct.SaleId = sale.Id;
                     salesProduct.Price = dbProduct.Price;
+                    dbProduct.Count = dbProduct.Count - salesProduct.Count;
                     salesProducts.Add(salesProduct);
                     total = total + basketProduct.ProductCount * dbProduct.Price;
                 }
@@ -145,7 +145,7 @@ namespace FRONTTOBACK.Controllers
                 await _context.AddAsync(sale);
                 await _context.SaveChangesAsync();
                 TempData["succsess"] = "Sale is succsess";
-                return RedirectToAction("Showitem");
+                return RedirectToAction("ShowItem");
             }
             else
             {
@@ -154,6 +154,65 @@ namespace FRONTTOBACK.Controllers
           
             
         }
-        
+
+
+        public IActionResult Minus(int? id)
+        {
+            if (id == null) return NotFound();
+
+
+            string basket = Request.Cookies["basket"];
+            List<BasketVM> products;
+            products = JsonConvert.DeserializeObject<List<BasketVM>>(basket);
+            BasketVM dbProduct = products.FirstOrDefault(p => p.Id == id);
+            if (dbProduct == null) return NotFound();
+            if (dbProduct.ProductCount > 1)
+            {
+                dbProduct.ProductCount--;
+            }
+            else
+            {
+                products.Remove(dbProduct);
+            }
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(products), new CookieOptions { MaxAge = TimeSpan.FromDays(14) });
+
+            return RedirectToAction("showitem", "basket");
+        }
+        public IActionResult Plus(int? id)
+        {
+            if (id == null) return NotFound();
+
+            string basket = Request.Cookies["basket"];
+            List<BasketVM> products;
+            products = JsonConvert.DeserializeObject<List<BasketVM>>(basket);
+            BasketVM dbProduct = products.FirstOrDefault(p => p.Id == id);
+            if (dbProduct == null) return NotFound();
+
+            dbProduct.ProductCount++;
+
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(products), new CookieOptions { MaxAge = TimeSpan.FromDays(14) });
+
+            return RedirectToAction("showitem", "basket");
+        }
+        public IActionResult Remove(int? id)
+        {
+            if (id == null) return NotFound();
+
+
+            string basket = Request.Cookies["basket"];
+            List<BasketVM> products;
+            products = JsonConvert.DeserializeObject<List<BasketVM>>(basket);
+            BasketVM dbProduct = products.FirstOrDefault(p => p.Id == id);
+            if (dbProduct == null) return NotFound();
+
+            products.Remove(dbProduct);
+
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(products), new CookieOptions { MaxAge = TimeSpan.FromDays(14) });
+
+            return RedirectToAction("showitem", "basket");
+        }
+
+
     }
+
 }
